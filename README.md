@@ -1,4 +1,4 @@
-# Proxied Browser
+# Smart Proxy Switcher
 
 Chromium extension that routes traffic through a proxy and automatically spoofs your browser's timezone to match the proxy's geographic location — defeating common proxy/VPN detection checks.
 

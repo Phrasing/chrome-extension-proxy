@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Proxied Browser",
+  "name": "Smart Proxy Switcher",
   "version": "1.1",
   "description": "Proxy with automatic timezone spoofing, auth handling, and WebRTC leak prevention",
   "permissions": ["proxy", "webRequest", "webRequestAuthProvider", "privacy", "storage", "scripting", "webNavigation"],
