@@ -21,7 +21,6 @@ async function applyProxy(settings) {
     scope: "regular",
   });
 
-  // Store credentials for onAuthRequired
   const isSocks = scheme.startsWith("socks");
   if (settings.user && settings.pass && !isSocks) {
     proxyUser = settings.user;
@@ -31,7 +30,6 @@ async function applyProxy(settings) {
     proxyPass = "";
   }
 
-  // Prevent WebRTC IP leaks
   await chrome.privacy.network.webRTCIPHandlingPolicy.set({
     value: "disable_non_proxied_udp",
   });
@@ -84,20 +82,16 @@ function makeDefaultState() {
 
 async function init() {
   try {
-    // Load cached timezone for injection
     const tzData = await chrome.storage.local.get("proxyTZ");
     if (tzData.proxyTZ) cachedTZ = tzData.proxyTZ;
 
-    // Migration / load
     const stored = await chrome.storage.local.get(["proxyState", "proxySettings"]);
 
     let state;
 
     if (stored.proxyState) {
-      // Already migrated
       state = stored.proxyState;
     } else if (stored.proxySettings && stored.proxySettings.host) {
-      // Migrate from old format
       const old = stored.proxySettings;
       state = {
         enabled: !!old.enabled,
@@ -117,7 +111,6 @@ async function init() {
       await chrome.storage.local.set({ proxyState: state });
       await chrome.storage.local.remove("proxySettings");
     } else {
-      // Check config.json fallback
       try {
         const resp = await fetch(chrome.runtime.getURL("config.json"));
         const cfg = await resp.json();
@@ -147,7 +140,6 @@ async function init() {
       await chrome.storage.local.set({ proxyState: state });
     }
 
-    // Apply active profile if enabled
     if (state.enabled) {
       const profile = getActiveProfile(state);
       if (profile && profile.host) {

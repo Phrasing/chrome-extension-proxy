@@ -52,7 +52,6 @@ function renderProfiles(state) {
   currentState = state;
   els.enabled.checked = !!state.enabled;
 
-  // Populate dropdown
   els.profileSelect.innerHTML = "";
   for (const p of state.profiles) {
     const opt = document.createElement("option");
@@ -62,17 +61,14 @@ function renderProfiles(state) {
   }
   els.profileSelect.value = state.activeProfileId;
 
-  // Fill form with active profile
   const active = state.profiles.find(p => p.id === state.activeProfileId) || state.profiles[0];
   populateForm(active);
 }
 
-// Quick paste: [protocol://]host:port[:user:pass]
 els.quickpaste.addEventListener("input", () => {
   let raw = els.quickpaste.value.trim();
   if (!raw) return;
 
-  // Extract protocol prefix if present
   let protocol = "http";
   const protoMatch = raw.match(/^([a-zA-Z0-9]+):\/\//);
   if (protoMatch) {
@@ -90,7 +86,6 @@ els.quickpaste.addEventListener("input", () => {
   els.pass.value = parts.slice(3).join(":") || "";
 });
 
-// Load current state on popup open
 chrome.runtime.sendMessage({ type: "getState" }, resp => {
   if (resp) {
     renderProfiles(resp.state);
@@ -98,7 +93,6 @@ chrome.runtime.sendMessage({ type: "getState" }, resp => {
   }
 });
 
-// Save & Apply
 els.save.addEventListener("click", () => {
   const formData = getFormProfile();
   if (!formData.host || !formData.port) {
@@ -124,7 +118,6 @@ els.save.addEventListener("click", () => {
   });
 });
 
-// Toggle on/off
 els.enabled.addEventListener("change", () => {
   const enabled = els.enabled.checked;
   showStatus(enabled ? "Enabling..." : "Disabling...", "info");
@@ -142,7 +135,6 @@ els.enabled.addEventListener("change", () => {
   });
 });
 
-// Switch profile
 els.profileSelect.addEventListener("change", () => {
   const profileId = els.profileSelect.value;
   chrome.runtime.sendMessage({ type: "switchProfile", profileId }, resp => {
@@ -155,7 +147,6 @@ els.profileSelect.addEventListener("change", () => {
   });
 });
 
-// Add profile
 els.profileAdd.addEventListener("click", () => {
   chrome.runtime.sendMessage({ type: "addProfile" }, resp => {
     if (resp && resp.ok) {
@@ -167,7 +158,6 @@ els.profileAdd.addEventListener("click", () => {
   });
 });
 
-// Delete profile
 els.profileDelete.addEventListener("click", () => {
   const profileId = els.profileSelect.value;
   chrome.runtime.sendMessage({ type: "deleteProfile", profileId }, resp => {
@@ -180,7 +170,6 @@ els.profileDelete.addEventListener("click", () => {
   });
 });
 
-// Rename profile
 els.profileRename.addEventListener("click", () => {
   const profileId = els.profileSelect.value;
   const current = currentState.profiles.find(p => p.id === profileId);
