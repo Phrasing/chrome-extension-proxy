@@ -33,16 +33,3 @@ Chromium extension that routes traffic through a proxy and automatically spoofs 
 **Timezone** — on proxy enable, the background service worker fetches the proxy's timezone from [ip-api.com](http://ip-api.com). On each page navigation, it injects the timezone into the page's main world via `chrome.scripting.executeScript`, where `tz-inject.js` patches all Date/Intl APIs to report the spoofed timezone. A setter-trap fallback handles race conditions.
 
 **WebRTC** — `chrome.privacy.network.webRTCIPHandlingPolicy` is set to `disable_non_proxied_udp`.
-
-## Project Structure
-
-```
-proxy-extension/
-  manifest.json     Manifest V3 config
-  background.js     Service worker — proxy, timezone detection, popup messaging
-  tz-config.js      Sets initial timezone value
-  tz-inject.js      MAIN world script — patches Date/Intl/Workers/iframes
-  popup.html        Extension popup UI
-  popup.js          Popup logic
-  config.json       Proxy config placeholder
-```
