@@ -3,7 +3,7 @@
 Chromium extension that routes traffic through a proxy and automatically spoofs your browser's timezone to match the proxy's geographic location — defeating common proxy/VPN detection checks.
 
 <div align="center">
-  <img src="docs/ui.png" alt="Popup UI" width="300">
+  <img src="assets/ui.png" alt="Popup UI" width="300">
 </div>
 
 ## Features
